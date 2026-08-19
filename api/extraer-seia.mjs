@@ -4,9 +4,9 @@
 
 const DEFAULT_MODEL = "gemini-3.6-flash";
 
-// Los PDF de RCA pueden ser largos (cientos de páginas) y Gemini tarda más en
-// procesarlos; el límite por defecto de Vercel se queda corto.
-export const config = { maxDuration: 60 };
+// Descargar el PDF desde el SEA + que Gemini lo procese puede pasar largo de
+// 60s para documentos grandes; Vercel Hobby permite hasta 300s.
+export const config = { maxDuration: 120 };
 
 const SCHEMA = {
   type: "OBJECT",
