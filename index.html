@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Actas INERCO Chile</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <h1>Generador de actas — INERCO Chile</h1>
+    <p>Sube la transcripción de una reunión (Word o VTT de Teams) y obtén un borrador de acta en el formato institucional, listo para revisar.</p>
+    <div class="privacy-note">
+      El archivo se procesa en tu navegador, pero el texto de la transcripción sí se envía a la API de Gemini (Google) para redactar el borrador — la key queda protegida en el servidor, nunca en la página, pero el contenido de la reunión sale de tu equipo. No subas transcripciones con información especialmente sensible sin confirmar antes con tu tutor o con IT qué nivel de confidencialidad es aceptable.
+    </div>
+  </header>
+
+  <section class="panel" id="panel-datos">
+    <h2>1. Datos de la reunión</h2>
+    <p class="hint">Si los sabes, complétalos aquí. Si los dejas en blanco, la web intenta detectarlos automáticamente al subir la transcripción y al generar el acta; si tampoco aparecen ahí (son datos que casi nunca se dicen en voz alta), quedan como "Por definir" y los completas tú después.</p>
+    <div class="field-grid">
+      <div class="field">
+        <label for="f-proyecto">Proyecto</label>
+        <input type="text" id="f-proyecto" placeholder="Nombre formal del proyecto" />
+      </div>
+      <div class="field">
+        <label for="f-acta-numero">Acta N°</label>
+        <input type="text" id="f-acta-numero" placeholder="Ej. 8" />
+      </div>
+      <div class="field">
+        <label for="f-lugar">Lugar</label>
+        <input type="text" id="f-lugar" value="Reunión Teams" />
+      </div>
+      <div class="field">
+        <label for="f-fecha">Fecha</label>
+        <input type="text" id="f-fecha" placeholder="Ej. 18 de agosto de 2026" />
+      </div>
+      <div class="field">
+        <label for="f-hora-inicio">Hora inicio</label>
+        <input type="text" id="f-hora-inicio" placeholder="HH:MM" />
+      </div>
+      <div class="field">
+        <label for="f-hora-termino">Hora término</label>
+        <input type="text" id="f-hora-termino" placeholder="HH:MM" />
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-archivo">
+    <h2>2. Transcripción</h2>
+    <p class="hint">Acepta el .docx que exporta Teams al finalizar una reunión con transcripción activada, o un archivo .vtt de subtítulos/transcripción.</p>
+    <div class="file-drop" id="file-drop">
+      <input type="file" id="f-file" accept=".docx,.vtt" style="display:none" />
+      <span id="file-drop-label">Haz clic para elegir el archivo (.docx o .vtt)</span>
+    </div>
+    <div id="file-status"></div>
+
+    <div id="participants-wrap" class="hidden">
+      <p class="hint" style="margin-top:16px">Participantes detectados (solo quienes hablaron en la transcripción). Revisa y corrige antes de generar el acta — las iniciales se usan para atribuir intervenciones.</p>
+      <table class="participants" id="participants-table">
+        <thead>
+          <tr><th>Nombre y apellido</th><th>Iniciales</th><th>Empresa</th><th>Modalidad</th><th></th></tr>
+        </thead>
+        <tbody id="participants-tbody"></tbody>
+      </table>
+      <button type="button" class="secondary" id="btn-add-participant" style="margin-top:8px">+ Agregar participante</button>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-modelo">
+    <h2>3. Generar el acta</h2>
+    <p class="hint">Gemini redacta el borrador a partir de la transcripción y los datos de arriba. Suele tardar unos segundos.</p>
+    <button type="button" id="btn-generate" disabled>Generar acta</button>
+
+    <div class="progress-area hidden" id="progress-area">
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
+      <div class="progress-text" id="progress-text"></div>
+    </div>
+    <div id="generate-status"></div>
+  </section>
+
+  <section class="panel hidden" id="panel-resultado">
+    <h2>4. Revisar y descargar</h2>
+    <p class="hint">Este borrador lo escribió un modelo de IA a partir de la transcripción: revísalo con cuidado antes de distribuirlo, especialmente lo listado en "Notas de revisión".</p>
+
+    <div class="field">
+      <label for="r-objetivo">Objetivo (una línea)</label>
+      <textarea id="r-objetivo" rows="2"></textarea>
+    </div>
+
+    <h3>Temas</h3>
+    <div id="temas-list"></div>
+    <button type="button" class="secondary" id="btn-add-tema">+ Agregar tema</button>
+
+    <h3 style="margin-top:20px">Notas de revisión</h3>
+    <p class="hint">Esto no se incluye en el Word. Es lo que hay que confirmar antes de distribuir el acta.</p>
+    <ul class="notas-list" id="notas-list"></ul>
+    <button type="button" class="secondary" id="btn-add-nota">+ Agregar nota</button>
+
+    <div class="actions-row">
+      <button type="button" id="btn-download-docx">Descargar acta (.docx)</button>
+      <button type="button" class="secondary" id="btn-copy-text">Copiar como texto</button>
+    </div>
+    <div id="result-status"></div>
+  </section>
+
+  <footer class="app-footer">
+    Uso interno INERCO Chile — herramienta de borrador, siempre requiere revisión humana antes de distribuir.
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

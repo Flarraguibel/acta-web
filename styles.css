@@ -1,0 +1,250 @@
+:root {
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --border: #dde1e6;
+  --text: #1f2530;
+  --text-dim: #5b6472;
+  --accent: #1b4f8c;
+  --accent-dark: #123a68;
+  --ok: #1b7a45;
+  --warn: #a15c00;
+  --danger: #b3261e;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Calibri, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+header.app-header {
+  margin-bottom: 24px;
+}
+
+header.app-header h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px;
+}
+
+header.app-header p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.privacy-note {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #eaf1fb;
+  border: 1px solid #c6d9f0;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  color: var(--accent-dark);
+}
+
+section.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+section.panel h2 {
+  font-size: 1.05rem;
+  margin: 0 0 4px;
+}
+
+section.panel .hint {
+  margin: 0 0 14px;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+
+textarea { resize: vertical; }
+
+.field { margin-bottom: 10px; }
+
+button {
+  font-family: inherit;
+  font-size: 0.92rem;
+  padding: 9px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover { background: var(--accent-dark); }
+
+button.secondary {
+  background: #fff;
+  color: var(--accent);
+}
+
+button.secondary:hover { background: #eaf1fb; }
+
+button.link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  padding: 2px 4px;
+  text-decoration: underline;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-drop {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.file-drop.has-file {
+  border-color: var(--ok);
+  color: var(--text);
+}
+
+table.participants {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+
+table.participants th, table.participants td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: left;
+}
+
+table.participants input, table.participants select {
+  padding: 4px 6px;
+  font-size: 0.85rem;
+}
+
+.row-actions { text-align: center; width: 32px; }
+
+.progress-area {
+  margin-top: 14px;
+}
+
+.progress-bar-outer {
+  width: 100%;
+  height: 10px;
+  background: #e5e8ec;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
+.progress-text {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.status-msg {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+
+.status-msg.error { background: #fbeaea; color: var(--danger); border: 1px solid #f0c4c1; }
+.status-msg.warn { background: #fff4e5; color: var(--warn); border: 1px solid #f0dcb2; }
+.status-msg.ok { background: #e9f7ee; color: var(--ok); border: 1px solid #bfe3ce; }
+
+.tema-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fbfbfc;
+}
+
+.tema-card .tema-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.tema-card .tema-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.notas-list li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.notas-list textarea { flex: 1; }
+
+.actions-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.hidden { display: none !important; }
+
+footer.app-footer {
+  margin-top: 30px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+}
