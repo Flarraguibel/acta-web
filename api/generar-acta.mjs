@@ -44,22 +44,29 @@ export default {
     };
     if (systemPrompt) payload.systemInstruction = { parts: [{ text: systemPrompt }] };
 
-    let geminiResp;
-    try {
-      geminiResp = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } catch (e) {
-      return jsonResponse({ error: "No se pudo contactar a la API de Gemini: " + e.message }, 502);
-    }
+    const MAX_ATTEMPTS = 3;
+    let geminiResp, data;
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        geminiResp = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } catch (e) {
+        return jsonResponse({ error: "No se pudo contactar a la API de Gemini: " + e.message }, 502);
+      }
 
-    let data;
-    try {
-      data = await geminiResp.json();
-    } catch (e) {
-      return jsonResponse({ error: "Respuesta no válida de la API de Gemini." }, 502);
+      try {
+        data = await geminiResp.json();
+      } catch (e) {
+        return jsonResponse({ error: "Respuesta no válida de la API de Gemini." }, 502);
+      }
+
+      // 503 = modelo sobrecargado del lado de Google, suele resolverse solo en unos segundos.
+      const overloaded = geminiResp.status === 503;
+      if (!overloaded || attempt === MAX_ATTEMPTS) break;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 1500));
     }
 
     if (!geminiResp.ok) {
