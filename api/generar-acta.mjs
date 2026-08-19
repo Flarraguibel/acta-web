@@ -1,7 +1,7 @@
 // Proxy hacia la API de Gemini: mantiene la API key en el servidor (variable de
 // entorno de Vercel), nunca en el navegador. El cliente nunca ve GEMINI_API_KEY.
 
-const DEFAULT_MODEL = "gemini-2.0-flash";
+const DEFAULT_MODEL = "gemini-3.6-flash";
 
 export default {
   async fetch(request) {

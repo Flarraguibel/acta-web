@@ -51,7 +51,7 @@ La forma más simple, sin git ni instalar nada:
 1. En el proyecto recién creado: **Settings → Environment Variables**.
 2. Agrega:
    - `GEMINI_API_KEY` = la key del paso 1.
-   - (Opcional) `GEMINI_MODEL` = `gemini-2.0-flash` (valor por defecto si
+   - (Opcional) `GEMINI_MODEL` = `gemini-3.6-flash` (valor por defecto si
      no la defines; se puede subir a un modelo más nuevo más adelante sin
      tocar código).
 3. Como la variable se agregó después del deploy, hace falta un redeploy
