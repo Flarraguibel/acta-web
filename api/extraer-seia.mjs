@@ -66,9 +66,21 @@ export default {
       return jsonResponse({ error: "Cuerpo de la petición inválido, se esperaba JSON." }, 400);
     }
 
-    const { pdfBase64 } = body || {};
+    let { pdfBase64, url: pdfUrl } = body || {};
+    if (!pdfBase64 && pdfUrl && typeof pdfUrl === "string") {
+      try {
+        const pdfResp = await fetch(pdfUrl);
+        if (!pdfResp.ok) {
+          return jsonResponse({ error: `No se pudo descargar el PDF (${pdfResp.status}): ${pdfUrl}` }, 502);
+        }
+        const buf = await pdfResp.arrayBuffer();
+        pdfBase64 = Buffer.from(buf).toString("base64");
+      } catch (e) {
+        return jsonResponse({ error: "No se pudo descargar el PDF: " + e.message }, 502);
+      }
+    }
     if (!pdfBase64 || typeof pdfBase64 !== "string") {
-      return jsonResponse({ error: "Falta 'pdfBase64' en la petición." }, 400);
+      return jsonResponse({ error: "Falta 'pdfBase64' o 'url' en la petición." }, 400);
     }
 
     const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;

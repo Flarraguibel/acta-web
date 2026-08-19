@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sistematización RCA/ICSARA — INERCO</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .doc-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--panel);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .doc-card .doc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+  }
+  .badge.rca { background: #eaf1fb; color: var(--accent-dark); }
+  .badge.icsara { background: #fff4e5; color: #a15c00; }
+  .doc-meta { color: var(--text-dim); font-size: 0.85rem; }
+  .doc-card h3 { margin: 10px 0 4px; font-size: 0.95rem; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .tag {
+    background: var(--mono-bg, #f0eee8);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+  }
+  .doc-card ul { margin: 4px 0 0; padding-left: 18px; font-size: 0.88rem; }
+  .doc-card li { margin-bottom: 4px; }
+  .obs-item { border-left: 3px solid var(--border); padding-left: 10px; margin-bottom: 8px; }
+  .obs-item .obs-organismo { font-weight: 600; font-size: 0.85rem; }
+  .obs-item .obs-tema { color: var(--text-dim); font-size: 0.8rem; }
+  .spinner-line { color: var(--text-dim); font-size: 0.88rem; }
+  #filtro { max-width: 320px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app-header">
+    <h1>Sistematización de RCA/ICSARA — SEIA</h1>
+    <p>Ingresa el id_expediente de un proyecto del SEIA y la web busca su RCA e ICSARA, los descarga y estructura la información clave con IA. Prototipo interno — MVP #2, en revisión con el tutor.</p>
+    <div class="privacy-note">
+      El contenido de los documentos (públicos del SEIA) se envía a la API de Gemini para estructurarlo. No hay datos de clientes involucrados: RCA e ICSARA son documentos públicos.
+    </div>
+  </header>
+
+  <section class="panel">
+    <h2>1. Buscar expediente</h2>
+    <p class="hint">El id_expediente se obtiene de la URL de la ficha del proyecto en seia.sea.gob.cl o sea.gob.cl (parámetro <code>id_expediente</code>).</p>
+    <div class="field-grid">
+      <div class="field">
+        <label for="f-id-expediente">id_expediente</label>
+        <input type="text" id="f-id-expediente" placeholder="Ej. 2160034555" />
+      </div>
+    </div>
+    <button type="button" id="btn-buscar">Buscar documentos</button>
+    <div id="buscar-status"></div>
+  </section>
+
+  <section class="panel hidden" id="panel-resultados">
+    <h2>2. Documentos encontrados</h2>
+    <p class="hint" id="resumen-expediente"></p>
+    <div class="field" style="margin-bottom:14px">
+      <label for="filtro">Filtrar por texto (proyecto, organismo, tema, normativa...)</label>
+      <input type="text" id="filtro" placeholder="Ej. ruido, DGA, D.S. 40..." />
+    </div>
+    <div id="docs-list"></div>
+  </section>
+
+  <footer class="app-footer">
+    Uso interno INERCO Chile — prototipo MVP #2, información pública del SEIA.
+  </footer>
+</div>
+
+<script type="module" src="seia-app.js"></script>
+</body>
+</html>
