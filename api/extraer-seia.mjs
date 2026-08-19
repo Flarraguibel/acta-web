@@ -4,6 +4,10 @@
 
 const DEFAULT_MODEL = "gemini-3.6-flash";
 
+// Los PDF de RCA pueden ser largos (cientos de páginas) y Gemini tarda más en
+// procesarlos; el límite por defecto de Vercel se queda corto.
+export const config = { maxDuration: 60 };
+
 const SCHEMA = {
   type: "OBJECT",
   properties: {
