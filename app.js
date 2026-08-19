@@ -154,6 +154,26 @@ function extractHoraInicioFromHeader(headerLines) {
   return null;
 }
 
+function extractDuracionSegundosFromHeader(headerLines) {
+  for (const line of headerLines) {
+    const trimmed = line.trim();
+    // Duración como reloj en su propia línea: "58:12" o "0:58:12"
+    let m = trimmed.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+    if (m) {
+      if (m[3] != null) return Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]);
+      return Number(m[1]) * 60 + Number(m[2]);
+    }
+    // Duración en palabras: "1 h 15 min", "1 hora 15 minutos", "58 min", "58 minutos"
+    m = trimmed.match(/^(?:(\d+)\s*h(?:oras?)?\s*)?(\d+)\s*m(?:in(?:utos?)?)?\.?$/i);
+    if (m) {
+      const horas = m[1] ? Number(m[1]) : 0;
+      const minutos = Number(m[2]);
+      return horas * 3600 + minutos * 60;
+    }
+  }
+  return null;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Parseo de .vtt                                                          */
 /* ---------------------------------------------------------------------- */
@@ -669,9 +689,9 @@ async function handleFile(file) {
         const hi = extractHoraInicioFromHeader(headerLines);
         if (hi) $("f-hora-inicio").value = hi;
       }
-      if (!$("f-hora-termino").value && $("f-hora-inicio").value && turns.length) {
-        const lastTs = turns[turns.length - 1].ts;
-        const secs = parseOffsetToSeconds(lastTs);
+      if (!$("f-hora-termino").value && $("f-hora-inicio").value) {
+        const duracion = extractDuracionSegundosFromHeader(headerLines);
+        const secs = duracion != null ? duracion : (turns.length ? parseOffsetToSeconds(turns[turns.length - 1].ts) : null);
         const ht = addSecondsToHora($("f-hora-inicio").value, secs);
         if (ht) $("f-hora-termino").value = ht;
       }

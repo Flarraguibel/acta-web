@@ -17,39 +17,8 @@
     </div>
   </header>
 
-  <section class="panel" id="panel-datos">
-    <h2>1. Datos de la reunión</h2>
-    <p class="hint">Si los sabes, complétalos aquí. Si los dejas en blanco, la web intenta detectarlos automáticamente al subir la transcripción y al generar el acta; si tampoco aparecen ahí (son datos que casi nunca se dicen en voz alta), quedan como "Por definir" y los completas tú después.</p>
-    <div class="field-grid">
-      <div class="field">
-        <label for="f-proyecto">Proyecto</label>
-        <input type="text" id="f-proyecto" placeholder="Nombre formal del proyecto" />
-      </div>
-      <div class="field">
-        <label for="f-acta-numero">Acta N°</label>
-        <input type="text" id="f-acta-numero" placeholder="Ej. 8" />
-      </div>
-      <div class="field">
-        <label for="f-lugar">Lugar</label>
-        <input type="text" id="f-lugar" value="Reunión Teams" />
-      </div>
-      <div class="field">
-        <label for="f-fecha">Fecha</label>
-        <input type="text" id="f-fecha" placeholder="Ej. 18 de agosto de 2026" />
-      </div>
-      <div class="field">
-        <label for="f-hora-inicio">Hora inicio</label>
-        <input type="text" id="f-hora-inicio" placeholder="HH:MM" />
-      </div>
-      <div class="field">
-        <label for="f-hora-termino">Hora término</label>
-        <input type="text" id="f-hora-termino" placeholder="HH:MM" />
-      </div>
-    </div>
-  </section>
-
   <section class="panel" id="panel-archivo">
-    <h2>2. Transcripción</h2>
+    <h2>1. Transcripción</h2>
     <p class="hint">Acepta el .docx que exporta Teams al finalizar una reunión con transcripción activada, o un archivo .vtt de subtítulos/transcripción.</p>
     <div class="file-drop" id="file-drop">
       <input type="file" id="f-file" accept=".docx,.vtt" style="display:none" />
@@ -70,8 +39,8 @@
   </section>
 
   <section class="panel" id="panel-modelo">
-    <h2>3. Generar el acta</h2>
-    <p class="hint">Gemini redacta el borrador a partir de la transcripción y los datos de arriba. Suele tardar unos segundos.</p>
+    <h2>2. Generar el acta</h2>
+    <p class="hint">Gemini lee la transcripción completa y arma el borrador, incluyendo fecha, horas, proyecto y N° de acta si se mencionan en la reunión. Suele tardar unos segundos.</p>
     <button type="button" id="btn-generate" disabled>Generar acta</button>
 
     <div class="progress-area hidden" id="progress-area">
@@ -82,10 +51,37 @@
   </section>
 
   <section class="panel hidden" id="panel-resultado">
-    <h2>4. Revisar y descargar</h2>
-    <p class="hint">Este borrador lo escribió un modelo de IA a partir de la transcripción: revísalo con cuidado antes de distribuirlo, especialmente lo listado en "Notas de revisión".</p>
+    <h2>3. Revisar y descargar</h2>
+    <p class="hint">Este borrador lo escribió un modelo de IA a partir de la transcripción: revísalo con cuidado antes de distribuirlo, especialmente lo listado en "Notas de revisión". Los datos administrativos de abajo se completaron solos cuando fue posible — si alguno quedó en blanco es porque no se dijo en la reunión; complétalo a mano o déjalo como "Por definir".</p>
 
-    <div class="field">
+    <div class="field-grid">
+      <div class="field">
+        <label for="f-proyecto">Proyecto</label>
+        <input type="text" id="f-proyecto" placeholder="Por definir" />
+      </div>
+      <div class="field">
+        <label for="f-acta-numero">Acta N°</label>
+        <input type="text" id="f-acta-numero" placeholder="Por definir" />
+      </div>
+      <div class="field">
+        <label for="f-lugar">Lugar</label>
+        <input type="text" id="f-lugar" value="Reunión Teams" />
+      </div>
+      <div class="field">
+        <label for="f-fecha">Fecha</label>
+        <input type="text" id="f-fecha" placeholder="Por definir" />
+      </div>
+      <div class="field">
+        <label for="f-hora-inicio">Hora inicio</label>
+        <input type="text" id="f-hora-inicio" placeholder="Por definir" />
+      </div>
+      <div class="field">
+        <label for="f-hora-termino">Hora término</label>
+        <input type="text" id="f-hora-termino" placeholder="Por definir" />
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:14px">
       <label for="r-objetivo">Objetivo (una línea)</label>
       <textarea id="r-objetivo" rows="2"></textarea>
     </div>
